@@ -119,4 +119,4 @@ For future research, apart from adding the above-noted predictors, it would be i
 -   LaLonde, R. (1995). The Promise of Public Sector-Sponsored Training Programs. Journal of Economic Perspective, 9(2), 604-620
 
 
-* Study made along Alena Kalodzitsa, Shota Takeshima, Xiao Lu and Amandeep Rathee.
+Study made in collaboration with Alena Kalodzitsa, Shota Takeshima, Xiao Lu, and Amandeep Rathee.
