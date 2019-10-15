@@ -1,7 +1,5 @@
 Study on the Evaluation of Training Programs - Linear Regression
 ================
-Juan Martinez
-October 3, 2019
 
 ### Summary
 
