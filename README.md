@@ -53,7 +53,7 @@ Also, as a safety check, we re-ran the model including the whole dataset (more s
 
 Our final model goes as follows:
 
-<img src="model.png" style="display: block; margin: auto;" />
+<img src="model.PNG" style="display: block; margin: auto;" />
 
 Next, we show the main plots to evaluate the compliance of linear regression assumptions:
 
