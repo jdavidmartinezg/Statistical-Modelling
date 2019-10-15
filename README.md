@@ -1,6 +1,7 @@
 Study on the Evaluation of Training Programs - Linear Regression
 ================
-
+Juan Martinez
+October 3, 2019
 
 ### Summary
 
@@ -20,7 +21,7 @@ There are a total of ten variables in the data - *treat, age, educ, black, hispa
 
 2.  As seen in the plots below, since *re78* was skewed to the left, therefore, we have used **square root transformation** for the response variable after trying several other transformations.
 
-![](Evaluation_of_trainning_programs_-_Github_files/figure-markdown_github/unnamed-chunk-2-1.png)
+![](unnamed-chunk-2-1.png)
 
 1.  The focus of our linear model is to see the effect of the training on a person's salary in 1978. In other words, we are not interested in the people who had no salary in 1978. For this reason, we have **removed the data points where the salary in 1978 was zero**. We will include these data points in the logistic regression model where our goal will be to know whether a person is earning a salary or not.
 
@@ -28,7 +29,7 @@ There are a total of ten variables in the data - *treat, age, educ, black, hispa
 
 Those were all the data manipulation steps taken prior to modeling. While regressing *re78* against the predictor variables, we also want to see interactions among different predictor variables. The following plot shows an interesting association between *re74* and *treat*.
 
-<img src="Evaluation_of_trainning_programs_-_Github_files/figure-markdown_github/unnamed-chunk-3-1.png" style="display: block; margin: auto;" />
+<img src="unnamed-chunk-3-1.png" style="display: block; margin: auto;" />
 
 First, let's look at the group that did not go receive the training (shown in black). In this group, the slope of the regression line is positive which shows that the higher the salary of a person in '74, the higher the salary of the person in '78.
 
@@ -54,24 +55,54 @@ Also, as a safety check, we re-ran the model including the whole dataset (more s
 
 Our final model goes as follows:
 
-$$
-{\\sqrt{RealAnnualEarnings78}}\_{i} = \\beta\_{0} + \\beta\_{1}  \\mathrm{AgeCentered}\_{i} + \\beta\_{2}  \\mathrm{EducationCentered}\_{i} + $$
-*β*<sub>3</sub>*R**e**a**l**A**n**n**u**a**l**E**a**r**n**i**n**g**s*74*C**e**n**t**e**r**e**d*<sub>*i*</sub> + *β*<sub>4</sub>*R**e**c**e**i**v**e**d**T**r**e**a**t**m**e**n**t*<sub>*i*</sub>
-+*β*<sub>5</sub>*I**s**B**l**a**c**k*<sub>*i*</sub> + *β*<sub>6</sub>*R**e**a**l**A**n**n**u**a**l**E**a**r**n**i**n**g**s*74 \* *R**e**c**e**i**v**e**d**T**r**e**a**t**m**e**n**t*<sub>*i*</sub> + *ϵ*<sub>*i*</sub>
+<img src="model.png" style="display: block; margin: auto;" />
 
 Next, we show the main plots to evaluate the compliance of linear regression assumptions:
 
-<img src="Evaluation_of_trainning_programs_-_Github_files/figure-markdown_github/unnamed-chunk-4-1.png" style="display: block; margin: auto;" />
+<img src="unnamed-chunk-4-1.png" style="display: block; margin: auto;" />
+
+
+    Call:
+    lm(formula = sqrt.re78 ~ ageC + educC + re74C + treat + black + 
+        re74C:treat, data = lalonde_log)
+
+    Residuals:
+        Min      1Q  Median      3Q     Max 
+    -95.634 -27.572   2.339  24.373 162.605 
+
+    Coefficients:
+                                       Estimate Std. Error t value Pr(>|t|)
+    (Intercept)                      84.4388479  2.2690311  37.214  < 2e-16
+    ageC                              0.3220633  0.2113446   1.524  0.12822
+    educC                             1.9764682  0.6784718   2.913  0.00375
+    re74C                             0.0019828  0.0003343   5.931  5.9e-09
+    treatReceived job training        4.7512898  4.8145567   0.987  0.32423
+    blackBlack                       -6.5252621  4.3971094  -1.484  0.13849
+    re74C:treatReceived job training -0.0016880  0.0006860  -2.461  0.01423
+                                        
+    (Intercept)                      ***
+    ageC                                
+    educC                            ** 
+    re74C                            ***
+    treatReceived job training          
+    blackBlack                          
+    re74C:treatReceived job training *  
+    ---
+    Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+    Residual standard error: 36.61 on 464 degrees of freedom
+    Multiple R-squared:  0.1541,    Adjusted R-squared:  0.1431 
+    F-statistic: 14.09 on 6 and 464 DF,  p-value: 9.363e-15
 
 As seen in the model evaluation plots above, the model met all the assumptions. We calculated the VIF coefficient for each of the variables finding no risk of multicollinearity issues. Moreover, the plot of the residuals against the fitted values shows no pattern indicating the not compliance of the independence assumption for the linear regression model. Furthermore, examining the QQ plot of the residuals shows that the normality of the errors is relatively met. When it comes to heteroscedasticity, our residual plots do not show concerning fluctuations in the variance of errors across the fitted values. Finally, when plotting the residuals against our predictors we do not discover any concerning pattern in the data, this demonstrates that our model does comply with the assumption of linearity.
 
 ### Results
 
-In this section, we are going to answer the questions asked in the team assignment. We use our final model and its results to answer these questions. As seen in *Table 1*, for the **first question** that asks if workers who receive job training tend to earn higher wages than workers who do not receive job training, we can see that *t**r**e**a**t* predictor is not statistically significant with a larger p-value than 5% significance level, and positive coefficient of 4.7513. For the **second question** (regarding the range for the difference in earnings in 1978 for workers who were trained and who have never been trained), we can look at the 95% confidence interval for the *t**r**e**a**t* dummy variable. According to the 95% CIs of *t**r**e**a**t*, for the workers who receive job training, the square root of real earnings in 78 increases by an amount which is between -4.710 and 14.212 as compared to the workers who did not receive training.
+In this section, we are going to answer the questions asked in the team assignment. We use our final model and its results to answer these questions. As seen in *Table 1*, for the **first question** that asks if workers who receive job training tend to earn higher wages than workers who do not receive job training, we can see that *treat* predictor is not statistically significant with a larger p-value than 5% significance level, and positive coefficient of 4.7513. For the **second question** (regarding the range for the difference in earnings in 1978 for workers who were trained and who have never been trained), we can look at the 95% confidence interval for the *treat* dummy variable. According to the 95% CIs of *treat*, for the workers who receive job training, the square root of real earnings in 78 increases by an amount which is between -4.710 and 14.212 as compared to the workers who did not receive training.
 
 Regarding the question about any evidence that the effects differ by demographic groups, we took our final model and started including various interaction terms one by one which involved treatment with all demographic variables testing both for the coefficient significance and whether there was a significant differences in the AICs by using ANOVA test. According to our analysis, there are no significant variations of the effect of treatment by anyone of the demographic features besides the ones present at our model. In addition, the model demonstrates that there are other interesting associations. From the result of the final model, the interactions between the income in 1974 and the binary value of whether the worker received job training is significant predictors. Owing to this interaction term, the square root of the income in 1978 decrease slightly as the previous income in 1974 of the employee who received the training decreases.
 
-Also, the intercept and the non-interaction predictors, such as *e**d**u**c* and *r**e*74 are statistically significant. This means the square root of the earning in 1978 increases 1.976 and 0.0020 respectively when *e**d**u**c* and *r**e*74 go up by one unit, keeping other predictors constant.
+Also, the intercept and the non-interaction predictors, such as *educ* and *re74* are statistically significant. This means the square root of the earning in 1978 increases 1.976 and 0.0020 respectively when *educ* and *re74* go up by one unit, keeping other predictors constant.
 
 ### Conclusion & Remarks
 
@@ -79,4 +110,12 @@ In conclusion, in line with earlier studies on this subject, we asserted that jo
 
 **Limitations and Suggestions for Further Research:** It is important to note that the final linear model has several limitations. As mentioned in the literature review, econometric procedures (linear regression) may not replicate the experimentally determined results, which is why we should be aware of the specification errors when making inferences for this model. Also, the control and treatment groups differ and do not have the same type of people, which could introduce bias into our evaluation. Furthermore, the adjR2 for the final regression model was only 0.14, which implies that there are probably other relevant predictors ( e.g. proxies for market conditions in the labor market, economic health, and others). Lastly, from the diagnostic plots, we could see that the normal Q-Q plot was slightly skewed from both sides, which we should keep in mind if we were to predict the post-training earnings based on the predictors in the model.
 
-For future research, apart from adding the above-noted predictors, it would be interesting to see the effect of job training on women and youth. Earlier studies showed that the effect of treatment on the postintervention earnings was higher for women than men (Lalonde, 1995). Lastly, it would be interesting to check the robustness of the model by using different econometric methods. However, due to the limited time and resources, these suggestions could not be implemented for the current study. 
+For future research, apart from adding the above-noted predictors, it would be interesting to see the effect of job training on women and youth. Earlier studies showed that the effect of treatment on the postintervention earnings was higher for women than men (Lalonde, 1995). Lastly, it would be interesting to check the robustness of the model by using different econometric methods. However, due to the limited time and resources, these suggestions could not be implemented for the current study.
+
+### References
+
+-   Dehejia & Wahba (1999). Causal Effects in Nonexperimental Studies: Reevaluating the Evaluation of Training Programs. Journal of the American Statistical Association, 94
+
+-   LaLonde, R. (1986). Evaluating the Econometric Evaluations of Training Programs with Experimental Data. The American Economic Review, 76(4), 604-620
+
+-   LaLonde, R. (1995). The Promise of Public Sector-Sponsored Training Programs. Journal of Economic Perspective, 9(2), 604-620
