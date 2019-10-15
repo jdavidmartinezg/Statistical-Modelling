@@ -33,8 +33,6 @@ library(ggpubr)
 
 options(scipen=999)
 
-setwd("D:/Dropbox/Duke University/1st Semester/IDS 702 - Modelling and Representation of Data/Team Projects/Team Project 1")
-
 lalonde <- read.csv('lalondedata.csv')
 
 str(lalonde)
